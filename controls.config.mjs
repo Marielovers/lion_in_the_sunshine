@@ -22,7 +22,7 @@ export const DRAG_AXIS_DIRECTION = Object.freeze({
   touchbreastX: 1,       touchbreastY: -1,
   touchpussyX: 1,        touchpussyY: -1,
   // 왼팔/오른팔, 왼다리/오른다리: Y 드래그로 구동
-  leftarm: 1, rightarm: 1,
+  leftarm: -1, rightarm: -1,
   leftleg: -1, rightleg: -1,
 });
 
