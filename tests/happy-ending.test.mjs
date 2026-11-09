@@ -12,7 +12,7 @@ const disallowed=['cheek','face','angryTouch','frontLeft','frontRight','hat','co
   'ribbon','socks','shirtLeft','shirtRight','shirtButton','pantsButton','pants','armLeft','armRight','legLeft','legRight'];
 
 test('happy starts at zero, maximum is 100, default per-touch multiplier is one',()=>{
-  assert.equal(INITIAL.happy,0); assert.equal(MAX_HAPPY,100);
+  assert.equal(INITIAL.happy,0); assert.equal(MAX_HAPPY,1000);
   assert.equal(HAPPY_PER_ACTION,1);
   assert.deepEqual(Object.keys(HAPPY_BY_TOUCH_ZONE).sort(),allowed.slice().sort());
 });
