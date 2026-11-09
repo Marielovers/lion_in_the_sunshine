@@ -1,0 +1,27 @@
+{
+  "name": "haetlion-live2d-local-game",
+  "version": "3.7.0",
+  "private": true,
+  "type": "module",
+  "description": "Live2D Cubism 5.3 WebGL2 local game; Core 6 auto-download on npm install",
+  "scripts": {
+    "postinstall": "node tools/setup-runtime.mjs",
+    "dev": "vite --host 127.0.0.1 --port 5173 --strictPort",
+    "dev:mobile": "vite --host 0.0.0.0 --port 5173 --strictPort",
+    "start": "vite --host 127.0.0.1 --port 5173 --strictPort",
+    "setup:core": "node tools/setup-runtime.mjs --core-only",
+    "setup:runtime": "node tools/setup-runtime.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "build": "vite build",
+    "check:model": "node tools/check-model.mjs"
+  },
+  "dependencies": {
+    "live2d-web": "0.9.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "vite": "^6.4.5"
+  }
+}

@@ -1,0 +1,11 @@
+import {readFile} from 'node:fs/promises';
+import assert from 'node:assert/strict';
+const root = new URL('../assets/model/', import.meta.url);
+const cfg = JSON.parse(await readFile(new URL('햇리온.model3.json',root),'utf8'));
+const moc = await readFile(new URL('햇리온.moc3',root));
+const drawableIds = new Set([...moc.toString('latin1').matchAll(/HitArea_[A-Za-z0-9_]+/g)].map(x=>x[0]));
+const registered = new Set(cfg.HitAreas.map(x=>x.Id));
+for(const id of drawableIds)assert.ok(registered.has(id),`미등록 HitArea: ${id}`);
+for(const id of registered)assert.ok(drawableIds.has(id),`실제 모델에 없는 HitArea: ${id}`);
+assert.equal(registered.size, drawableIds.size);
+console.log(`model3.json / moc3 hitareas: ${registered.size}개 일치 (메시 문자열 검증)`);

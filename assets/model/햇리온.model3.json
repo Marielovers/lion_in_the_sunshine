@@ -1,0 +1,173 @@
+{
+  "Version": 3,
+  "FileReferences": {
+    "Moc": "햇리온.moc3",
+    "Textures": [
+      "햇리온.2048/texture_00.png"
+    ],
+    "Physics": "햇리온.physics3.json",
+    "DisplayInfo": "햇리온.cdi3.json",
+    "Motions": {
+      "cheek": [
+        {
+          "File": "cheek.motion3.json",
+          "FadeInTime": 0.08,
+          "FadeOutTime": 0.2
+        }
+      ],
+      "face": [
+        {
+          "File": "face.motion3.json",
+          "FadeInTime": 0.08,
+          "FadeOutTime": 0.2
+        }
+      ],
+      "head": [
+        {
+          "File": "head.motion3.json",
+          "FadeInTime": 0.08,
+          "FadeOutTime": 0.2
+        }
+      ],
+      "belly": [
+        {
+          "File": "belly.motion3.json",
+          "FadeInTime": 0.08,
+          "FadeOutTime": 0.2
+        }
+      ],
+      "frontLeft": [
+        {
+          "File": "frontLeft.motion3.json",
+          "FadeInTime": 0.08,
+          "FadeOutTime": 0.2
+        }
+      ],
+      "frontRight": [
+        {
+          "File": "frontRight.motion3.json",
+          "FadeInTime": 0.08,
+          "FadeOutTime": 0.2
+        }
+      ]
+    }
+  },
+  "Groups": [
+    {
+      "Target": "Parameter",
+      "Name": "EyeBlink",
+      "Ids": []
+    },
+    {
+      "Target": "Parameter",
+      "Name": "LipSync",
+      "Ids": []
+    }
+  ],
+  "HitAreas": [
+    {
+      "Name": "HitArea_coatL",
+      "Id": "HitArea_coatL"
+    },
+    {
+      "Name": "HitArea_coatR",
+      "Id": "HitArea_coatR"
+    },
+    {
+      "Name": "HitArea_movearmleft",
+      "Id": "HitArea_movearmleft"
+    },
+    {
+      "Name": "HitArea_movearmright",
+      "Id": "HitArea_movearmright"
+    },
+    {
+      "Name": "HitArea_movelegleft",
+      "Id": "HitArea_movelegleft"
+    },
+    {
+      "Name": "HitArea_movelegright",
+      "Id": "HitArea_movelegright"
+    },
+    {
+      "Name": "HitArea_removehat",
+      "Id": "HitArea_removehat"
+    },
+    {
+      "Name": "HitArea_removepants",
+      "Id": "HitArea_removepants"
+    },
+    {
+      "Name": "HitArea_removepantsbotton",
+      "Id": "HitArea_removepantsbotton"
+    },
+    {
+      "Name": "HitArea_removeriborn",
+      "Id": "HitArea_removeriborn"
+    },
+    {
+      "Name": "HitArea_removeshirtleft",
+      "Id": "HitArea_removeshirtleft"
+    },
+    {
+      "Name": "HitArea_removeshirtright",
+      "Id": "HitArea_removeshirtright"
+    },
+    {
+      "Name": "HitArea_sholder",
+      "Id": "HitArea_sholder"
+    },
+    {
+      "Name": "HitArea_touchangry",
+      "Id": "HitArea_touchangry"
+    },
+    {
+      "Name": "HitArea_touchbelly",
+      "Id": "HitArea_touchbelly"
+    },
+    {
+      "Name": "HitArea_touchbol",
+      "Id": "HitArea_touchbol"
+    },
+    {
+      "Name": "HitArea_touchbreastleft",
+      "Id": "HitArea_touchbreastleft"
+    },
+    {
+      "Name": "HitArea_touchbreastright",
+      "Id": "HitArea_touchbreastright"
+    },
+    {
+      "Name": "HitArea_touchface",
+      "Id": "HitArea_touchface"
+    },
+    {
+      "Name": "HitArea_touchfeetleft",
+      "Id": "HitArea_touchfeetleft"
+    },
+    {
+      "Name": "HitArea_touchfeetright",
+      "Id": "HitArea_touchfeetright"
+    },
+    {
+      "Name": "HitArea_touchhaed",
+      "Id": "HitArea_touchhaed"
+    },
+    {
+      "Name": "HitArea_touchhandleft",
+      "Id": "HitArea_touchhandleft"
+    },
+    {
+      "Name": "HitArea_touchhandright",
+      "Id": "HitArea_touchhandright"
+    },
+    {
+      "Name": "HitArea_touchthighleft",
+      "Id": "HitArea_touchthighleft"
+    },
+    {
+      "Name": "HitArea_touchthighright",
+      "Id": "HitArea_touchthighright"
+    }
+  ]
+}

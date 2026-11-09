@@ -1,0 +1,433 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "hitcheek",
+			"GroupId": "ParamGroup6",
+			"Name": "뺨"
+		},
+		{
+			"Id": "facefist",
+			"GroupId": "ParamGroup6",
+			"Name": "얼굴빵"
+		},
+		{
+			"Id": "headfist",
+			"GroupId": "ParamGroup6",
+			"Name": "꿀밤"
+		},
+		{
+			"Id": "leftbreasthit",
+			"GroupId": "ParamGroup6",
+			"Name": "왼가슴"
+		},
+		{
+			"Id": "rightbreasthit",
+			"GroupId": "ParamGroup6",
+			"Name": "오른가슴"
+		},
+		{
+			"Id": "bellyfist",
+			"GroupId": "ParamGroup6",
+			"Name": "배빵"
+		},
+		{
+			"Id": "touchbolX",
+			"GroupId": "ParamGroup3",
+			"Name": "touchbolX"
+		},
+		{
+			"Id": "touchbolY",
+			"GroupId": "ParamGroup3",
+			"Name": "touchbolY"
+		},
+		{
+			"Id": "touchheadX",
+			"GroupId": "ParamGroup3",
+			"Name": "touchheadX"
+		},
+		{
+			"Id": "touchheadY",
+			"GroupId": "ParamGroup3",
+			"Name": "touchheadY"
+		},
+		{
+			"Id": "touchsholderX",
+			"GroupId": "ParamGroup3",
+			"Name": "touchsholderX"
+		},
+		{
+			"Id": "touchsholderY",
+			"GroupId": "ParamGroup3",
+			"Name": "touchsholderY"
+		},
+		{
+			"Id": "touchhandleftX",
+			"GroupId": "ParamGroup3",
+			"Name": "touchhandleftX"
+		},
+		{
+			"Id": "touchhandleftY",
+			"GroupId": "ParamGroup3",
+			"Name": "touchhandleftY"
+		},
+		{
+			"Id": "touchhandrightX",
+			"GroupId": "ParamGroup3",
+			"Name": "touchhandrifhtX"
+		},
+		{
+			"Id": "touchhandrightY",
+			"GroupId": "ParamGroup3",
+			"Name": "touchhandrifhtY"
+		},
+		{
+			"Id": "touchbreastX",
+			"GroupId": "ParamGroup3",
+			"Name": "touchbreastX"
+		},
+		{
+			"Id": "touchbreastY",
+			"GroupId": "ParamGroup3",
+			"Name": "touchbreastY"
+		},
+		{
+			"Id": "touchbellyX",
+			"GroupId": "ParamGroup3",
+			"Name": "touchbellyX"
+		},
+		{
+			"Id": "touchbellyY",
+			"GroupId": "ParamGroup3",
+			"Name": "touchbellyY"
+		},
+		{
+			"Id": "touchpussyX",
+			"GroupId": "ParamGroup3",
+			"Name": "touchpussyX"
+		},
+		{
+			"Id": "touchpussyY",
+			"GroupId": "ParamGroup3",
+			"Name": "touchpussyY"
+		},
+		{
+			"Id": "touchfeetleftX",
+			"GroupId": "ParamGroup3",
+			"Name": "touchfeetleftX"
+		},
+		{
+			"Id": "touchfeetleftY",
+			"GroupId": "ParamGroup3",
+			"Name": "touchfeetleftY"
+		},
+		{
+			"Id": "touchfeetrightX",
+			"GroupId": "ParamGroup3",
+			"Name": "touchfeetrightX"
+		},
+		{
+			"Id": "touchfeetrightY",
+			"GroupId": "ParamGroup3",
+			"Name": "touchfeetrightY"
+		},
+		{
+			"Id": "touchthighleftX",
+			"GroupId": "ParamGroup3",
+			"Name": "touchthighleftX"
+		},
+		{
+			"Id": "touchthighleftY",
+			"GroupId": "ParamGroup3",
+			"Name": "touchthighleftY"
+		},
+		{
+			"Id": "touchthighrightX",
+			"GroupId": "ParamGroup3",
+			"Name": "touchthighrightX"
+		},
+		{
+			"Id": "touchthighrightY",
+			"GroupId": "ParamGroup3",
+			"Name": "touchthighrightY"
+		},
+		{
+			"Id": "ParamBreath",
+			"GroupId": "ParamGroup4",
+			"Name": "호흡"
+		},
+		{
+			"Id": "fronthairX",
+			"GroupId": "ParamGroup4",
+			"Name": "fronthairX"
+		},
+		{
+			"Id": "fronthairY",
+			"GroupId": "ParamGroup4",
+			"Name": "fronthairY"
+		},
+		{
+			"Id": "sidehairX1",
+			"GroupId": "ParamGroup4",
+			"Name": "sidehairX1"
+		},
+		{
+			"Id": "sidehairX2",
+			"GroupId": "ParamGroup4",
+			"Name": "sidehairX2"
+		},
+		{
+			"Id": "sidehairY",
+			"GroupId": "ParamGroup4",
+			"Name": "sidehairY"
+		},
+		{
+			"Id": "backhairX",
+			"GroupId": "ParamGroup4",
+			"Name": "backhairX"
+		},
+		{
+			"Id": "backhairY",
+			"GroupId": "ParamGroup4",
+			"Name": "backhairY"
+		},
+		{
+			"Id": "hairballX",
+			"GroupId": "ParamGroup4",
+			"Name": "hairballX"
+		},
+		{
+			"Id": "hairballY",
+			"GroupId": "ParamGroup4",
+			"Name": "hairballY"
+		},
+		{
+			"Id": "earX1",
+			"GroupId": "ParamGroup4",
+			"Name": "earX1"
+		},
+		{
+			"Id": "earX2",
+			"GroupId": "ParamGroup4",
+			"Name": "earX2"
+		},
+		{
+			"Id": "earY",
+			"GroupId": "ParamGroup4",
+			"Name": "earY"
+		},
+		{
+			"Id": "bolX1",
+			"GroupId": "ParamGroup4",
+			"Name": "bolX1"
+		},
+		{
+			"Id": "bolX2",
+			"GroupId": "ParamGroup4",
+			"Name": "bolX2"
+		},
+		{
+			"Id": "bolY",
+			"GroupId": "ParamGroup4",
+			"Name": "bolY"
+		},
+		{
+			"Id": "breastX1",
+			"GroupId": "ParamGroup4",
+			"Name": "breastX1"
+		},
+		{
+			"Id": "breastX2",
+			"GroupId": "ParamGroup4",
+			"Name": "breastX2"
+		},
+		{
+			"Id": "breastY1",
+			"GroupId": "ParamGroup4",
+			"Name": "breastY1"
+		},
+		{
+			"Id": "breastY2",
+			"GroupId": "ParamGroup4",
+			"Name": "breastY2"
+		},
+		{
+			"Id": "headX",
+			"GroupId": "ParamGroup4",
+			"Name": "headX"
+		},
+		{
+			"Id": "headY",
+			"GroupId": "ParamGroup4",
+			"Name": "headY"
+		},
+		{
+			"Id": "bodybounce",
+			"GroupId": "ParamGroup4",
+			"Name": "bodybounce"
+		},
+		{
+			"Id": "leftarm",
+			"GroupId": "ParamGroup2",
+			"Name": "왼팔"
+		},
+		{
+			"Id": "rightarm",
+			"GroupId": "ParamGroup2",
+			"Name": "오른팔"
+		},
+		{
+			"Id": "leftleg",
+			"GroupId": "ParamGroup2",
+			"Name": "왼다리"
+		},
+		{
+			"Id": "rightleg",
+			"GroupId": "ParamGroup2",
+			"Name": "오른다리"
+		},
+		{
+			"Id": "eye",
+			"GroupId": "ParamGroup5",
+			"Name": "눈"
+		},
+		{
+			"Id": "blink",
+			"GroupId": "ParamGroup5",
+			"Name": "눈떨림"
+		},
+		{
+			"Id": "brow",
+			"GroupId": "ParamGroup5",
+			"Name": "눈썹"
+		},
+		{
+			"Id": "mouth",
+			"GroupId": "ParamGroup5",
+			"Name": "입"
+		},
+		{
+			"Id": "smile",
+			"GroupId": "ParamGroup5",
+			"Name": "미소"
+		},
+		{
+			"Id": "blood",
+			"GroupId": "ParamGroup5",
+			"Name": "코피"
+		},
+		{
+			"Id": "shy",
+			"GroupId": "ParamGroup5",
+			"Name": "부끄"
+		},
+		{
+			"Id": "wet",
+			"GroupId": "ParamGroup5",
+			"Name": "wet"
+		},
+		{
+			"Id": "ojum",
+			"GroupId": "ParamGroup5",
+			"Name": "오줌"
+		},
+		{
+			"Id": "cheekcolor",
+			"GroupId": "ParamGroup5",
+			"Name": "뺨색"
+		},
+		{
+			"Id": "headcolor",
+			"GroupId": "ParamGroup5",
+			"Name": "머리색"
+		},
+		{
+			"Id": "leftbreastcolor",
+			"GroupId": "ParamGroup5",
+			"Name": "왼가슴색"
+		},
+		{
+			"Id": "rightbreastcolor",
+			"GroupId": "ParamGroup5",
+			"Name": "오른가슴색"
+		},
+		{
+			"Id": "bellycolor",
+			"GroupId": "ParamGroup5",
+			"Name": "배색"
+		},
+		{
+			"Id": "removecoat",
+			"GroupId": "ParamGroup",
+			"Name": "코트"
+		},
+		{
+			"Id": "removesock",
+			"GroupId": "ParamGroup",
+			"Name": "양말"
+		},
+		{
+			"Id": "removeshirt",
+			"GroupId": "ParamGroup",
+			"Name": "셔츠"
+		},
+		{
+			"Id": "removeshirtbotton",
+			"GroupId": "ParamGroup",
+			"Name": "셔츠단추"
+		},
+		{
+			"Id": "removeriborn",
+			"GroupId": "ParamGroup",
+			"Name": "리본"
+		},
+		{
+			"Id": "removehat",
+			"GroupId": "ParamGroup",
+			"Name": "모자"
+		},
+		{
+			"Id": "pantsbotton",
+			"GroupId": "ParamGroup",
+			"Name": "바지단추"
+		},
+		{
+			"Id": "pants",
+			"GroupId": "ParamGroup",
+			"Name": "바지"
+		}
+	],
+	"ParameterGroups": [
+		{
+			"Id": "ParamGroup6",
+			"GroupId": "",
+			"Name": "때리기"
+		},
+		{
+			"Id": "ParamGroup3",
+			"GroupId": "",
+			"Name": "주무르기"
+		},
+		{
+			"Id": "ParamGroup4",
+			"GroupId": "",
+			"Name": "물리연산"
+		},
+		{
+			"Id": "ParamGroup2",
+			"GroupId": "",
+			"Name": "움직임"
+		},
+		{
+			"Id": "ParamGroup5",
+			"GroupId": "",
+			"Name": "변화"
+		},
+		{
+			"Id": "ParamGroup",
+			"GroupId": "",
+			"Name": "옷벗기기"
+		}
+	],
+	"Parts": []
+}

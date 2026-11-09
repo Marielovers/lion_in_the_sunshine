@@ -1,0 +1,99 @@
+:root{font-family:'Malgun Gothic','Apple SD Gothic Neo',system-ui,sans-serif;color:#7b5962;background:#fff3f0}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;overscroll-behavior:none}
+body{background:radial-gradient(ellipse at top,#fff 0%,#fff3f0 65%,#fbe3e5 100%)}
+button{font:inherit;cursor:pointer;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+.app{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:8px 12px;overflow:hidden}
+.game-layout{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:0;position:relative}
+/* The uploaded background is 797x1254 pixels; retain its exact aspect ratio. */
+.game-board{position:relative;flex:0 0 auto;width:min(690px,calc(63.55dvh - 20px),calc(100vw - 95px));aspect-ratio:797/1254;isolation:isolate;border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 15px 50px #8e666533,0 0 0 2px #ffffffed;touch-action:none;user-select:none;-webkit-user-select:none}
+.bed,#liveCanvas,.particles{position:absolute;inset:0;width:100%;height:100%}
+.bed{display:block;object-fit:fill;z-index:0;pointer-events:none;-webkit-user-drag:none}
+#liveCanvas{z-index:3!important;touch-action:none;pointer-events:none!important;display:block}
+#liveCanvas canvas{display:block;width:100%!important;height:100%!important;pointer-events:none;background:transparent!important;opacity:1!important;visibility:visible!important}
+.particles{z-index:4;pointer-events:none;overflow:hidden}
+/* Both mode controls are comfortably touch-sized without obscuring the scene. */
+.mode-switcher{position:absolute;left:10px;bottom:11px;z-index:9;display:flex;gap:4px;padding:4px;border-radius:18px;border:1px solid #ffffffd9;background:#fff9f3e6;backdrop-filter:blur(7px);box-shadow:0 5px 24px #895c6255}
+.mode-btn{display:grid;place-items:center;width:52px;height:52px;min-width:48px;min-height:48px;border:0;border-radius:14px;background:transparent;font-size:27px;line-height:1;transition:background .15s,transform .12s}
+.mode-btn.active{background:#f3c0c6;box-shadow:inset 0 0 0 1px #e0aab1}
+.mode-btn:active{transform:scale(.92)}
+.sound-toggle{position:fixed;top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right));z-index:25;display:grid;place-items:center;min-width:46px;min-height:46px;border-radius:50%;border:1px solid #eacdd0;background:#fffaf7ec;color:#ac6c7f;font-size:25px;box-shadow:0 4px 15px #7e465929}
+.sound-toggle.muted{color:#aa9ca3;opacity:.7}
+/* Desktop sleep gauge sits to the right of the board. */
+.sleep-gauge{display:flex;flex-direction:column;gap:11px;align-items:center;justify-content:center;min-width:58px;height:min(75dvh,710px);pointer-events:none}
+.zzz{height:53px;white-space:nowrap;color:#d791a1;font:bold italic 37px Georgia,serif;transform:rotate(-16deg);text-shadow:0 3px #fff}
+.zzz span{font-size:.75em}.zzz sup{font-size:.52em}
+.gauge-track{position:relative;width:35px;height:70%;min-height:150px;max-height:620px;border-radius:27px;border:3px solid #fffcfa;background:#f7ebeb;box-shadow:0 0 0 2px #e5c1c8,0 7px 20px #a76f7825;overflow:hidden;transform:translateZ(0)}
+.gauge-fill{position:absolute;left:0;right:0;bottom:0;height:100%;border-radius:24px;background:linear-gradient(90deg,#f5c6c7 0%,#e9a0af 45%,#da8095 100%);transition:height .17s ease-out}
+.gauge-glow{position:absolute;inset:0 auto 0 8px;width:5px;border-radius:40px;background:#fff7;z-index:2;pointer-events:none}
+.gauge-lines{position:absolute;inset:0;background:repeating-linear-gradient(to top,transparent 0,transparent calc(20% - 1px),#ffffff88 20%);pointer-events:none}
+.gauge-number{color:#bb8092;font-size:11px;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+.gauge-fill.kept-awake{background:linear-gradient(90deg,#c6dce7,#a5c5dc)!important}
+.sleep-gauge.recovering .zzz{animation:idleZzz 2.6s ease-in-out infinite}
+.sleep-gauge.recovering .gauge-fill{filter:brightness(1.06)}
+/* Loading and game overlays: only essential copy. */
+.startup,.title-screen,.game-over{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(7px)}
+.startup{z-index:16;background:#fff2efbd}
+.title-screen{z-index:15;background:linear-gradient(140deg,#ffeaeec7,#f9d1d5b8)}
+.game-over{z-index:20;background:#ffecebd9}
+.startup-card,.title-card,.over-card{text-align:center;width:min(94%,410px);background:#fffdf4ee;border:2px solid #fff;border-radius:26px;padding:clamp(18px,4vw,35px) 15px;box-shadow:0 20px 60px #a6677730}
+.title-card h2{margin:0 0 26px;color:#a56377;font-size:clamp(24px,5vw,38px);line-height:1.28;letter-spacing:-1.5px}
+.over-card h2{margin:0 0 24px;color:#a56377;font:bold clamp(28px,7vw,44px) Georgia,serif}
+.startup-card h2{margin:8px 0;font-size:17px}
+.startup-card p{font-size:12px;line-height:1.6;overflow-wrap:anywhere}
+.loader-icon{font-size:40px;color:#cf939d;animation:float 1.8s ease-in-out infinite}
+.loading-line{margin:15px auto 0;width:80%;height:5px;background:#f1e1e4;border-radius:9px;overflow:hidden}
+.loading-line span{display:block;width:40%;height:100%;border-radius:9px;background:#e6a6b3;animation:loading 1.3s linear infinite}
+.start-button,.restart,.retry{border:0;border-radius:99px;min-height:48px;min-width:140px;padding:12px 22px;background:linear-gradient(110deg,#e9aab8,#d7789a);box-shadow:0 5px 16px #a8667944;color:#fff;font-weight:800;font-size:17px}
+.start-button:disabled{opacity:.6;cursor:progress}
+.hidden{display:none!important}
+.ripple{position:absolute;z-index:4;border-radius:50%;width:16px;height:16px;transform:translate(-50%,-50%) scale(.2);border:2px solid #e8a1b7;animation:ripple .63s ease-out forwards;pointer-events:none}
+.ripple.fist{border-color:#8f8698;border-width:3px}
+.heart{position:absolute;left:0;top:0;transform:translate(-50%,-50%);font-size:26px;color:#f47fa2;pointer-events:none;animation:heartUp 1.05s ease-out forwards;filter:drop-shadow(0 1px 1px #fff)}
+.heart.black{color:#292633}
+.debug-controls{position:fixed;right:10px;bottom:10px;z-index:50;display:flex;flex-direction:column;max-width:min(290px,95vw);max-height:90dvh;overflow:auto;background:#fff;box-shadow:0 5px 25px #0004;padding:15px;border-radius:14px;gap:6px;font-size:12px}
+.debug-controls label{display:flex;justify-content:space-between;align-items:center;gap:12px}
+#debugHits,#debugStatus{font-family:monospace;font-size:11px;overflow-wrap:anywhere;line-height:1.5}
+#debugCopy{border:0;border-radius:9px;background:#eeb6bf;color:#fff;padding:8px 10px}
+/* Phone portrait: enlarge the model by giving the board almost the full screen width.
+   The sleep gauge floats inside the right edge, not in its own wide column. */
+@media(max-width:700px){
+ .app{padding:4px max(3px,env(safe-area-inset-right)) 4px max(3px,env(safe-area-inset-left))}
+ .game-layout{gap:0}
+ .game-board{width:min(calc(100vw - 7px),calc(63.55dvh - 9px));border-radius:10px}
+ .sleep-gauge{position:absolute;right:clamp(6px,2.1vw,12px);top:50%;transform:translateY(-50%);height:62%;min-width:38px;width:38px;z-index:10;gap:5px;filter:drop-shadow(0 1px 3px #ffffffa8)}
+ .zzz{height:35px;font-size:26px}
+ .gauge-track{width:27px;min-height:80px;max-height:460px;height:calc(100% - 62px);border-width:2px}
+ .gauge-number{font-size:10px;color:#a95e76;background:#fff8;border-radius:7px;padding:2px}
+ .mode-switcher{left:8px;bottom:9px;border-radius:15px;gap:4px;padding:3px}
+ .mode-btn{width:49px;height:49px;font-size:26px}
+ .sound-toggle{top:max(8px,env(safe-area-inset-top));right:max(8px,env(safe-area-inset-right));width:46px;height:46px}
+ .title-card h2{font-size:clamp(25px,6vw,34px)}
+}
+/* Landscape phones: preserve board aspect and keep the buttons usable. */
+@media(max-height:480px){
+ .app{padding:2px 4px}
+ .game-board{width:min(calc(63.55dvh - 7px),calc(100vw - 80px));border-radius:10px}
+ .mode-btn{width:46px;height:46px;min-height:46px;font-size:24px}
+ .game-layout{gap:8px}
+ .sleep-gauge{position:relative;right:auto;top:auto;transform:none;height:75dvh;min-width:34px;width:34px;flex:0 0 34px}
+ .gauge-track{min-height:65px}
+ .zzz{font-size:22px;height:27px}
+ .title-card{padding:12px}
+ .title-card h2{font-size:24px;margin-bottom:10px}
+ .start-button{font-size:15px;min-height:44px}
+}
+@keyframes ripple{0%{transform:translate(-50%,-50%) scale(.1);opacity:.9}100%{transform:translate(-50%,-50%) scale(7.2);opacity:0}}
+@keyframes heartUp{0%{opacity:0;transform:translate(-50%,-20%) scale(.4)}15%{opacity:1}100%{opacity:0;transform:translate(calc(-50% + var(--drift,8px)),calc(-100% - 63px)) scale(1.25)}}
+@keyframes loading{from{transform:translateX(-100%)}to{transform:translateX(240%)}}
+@keyframes float{50%{transform:translateY(-7px) rotate(-7deg)}}
+@keyframes idleZzz{0%,100%{opacity:.58;transform:translateY(0) rotate(-19deg)}50%{opacity:1;transform:translateY(-5px) rotate(-14deg)}}
+@media(prefers-reduced-motion:reduce){.heart,.ripple{animation-duration:.45s}.loader-icon,.sleep-gauge.recovering .zzz{animation:none}}
+
+/* Compact fixed HUD: 5521 sleep lock and happiness progress. */
+.sleep-lock{position:fixed;top:max(12px,env(safe-area-inset-top));left:max(12px,env(safe-area-inset-left));z-index:25;min-width:64px;min-height:46px;padding:4px 10px;border:1px solid #e8b9c4;border-radius:14px;background:#fffaf7ec;color:#a9667c;font-size:17px;font-weight:900;box-shadow:0 4px 15px #7e465929}
+.sleep-lock.active{background:#ecb0bf;color:#fff;border-color:#d990a4}
+.sleep-lock:disabled:not(.active){opacity:.5}
+.happy-hud{position:fixed;top:max(16px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);z-index:25;pointer-events:none;background:#fffaf7e8;border:1px solid #efd0d5;border-radius:30px;padding:7px 13px;color:#ca6786;font-size:16px;font-weight:900;font-variant-numeric:tabular-nums;box-shadow:0 3px 14px #7e465921;white-space:nowrap}
+.happy-ending .over-card h2{font-family:'Malgun Gothic','Apple SD Gothic Neo',system-ui,sans-serif;font-size:clamp(23px,5.2vw,35px);line-height:1.4;word-break:keep-all}
+@media(max-width:700px){.sleep-lock{top:max(8px,env(safe-area-inset-top));left:max(8px,env(safe-area-inset-left));min-width:58px;min-height:46px}.happy-hud{top:max(12px,env(safe-area-inset-top));font-size:14px;padding:8px 10px}}

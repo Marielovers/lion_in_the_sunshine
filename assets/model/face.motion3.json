@@ -1,0 +1,93 @@
+{
+  "Version": 3,
+  "Meta": {
+    "Duration": 1.983,
+    "Fps": 60.0,
+    "Loop": false,
+    "AreBeziersRestricted": false,
+    "CurveCount": 6,
+    "TotalSegmentCount": 7,
+    "TotalPointCount": 17,
+    "UserDataCount": 0,
+    "TotalUserDataSize": 0
+  },
+  "Curves": [
+    {
+      "Target": "Parameter",
+      "Id": "hitcheek",
+      "Segments": [
+        0,
+        0,
+        0,
+        1.983,
+        0
+      ]
+    },
+    {
+      "Target": "Parameter",
+      "Id": "facefist",
+      "Segments": [
+        0,
+        0,
+        1,
+        0.056,
+        0,
+        0.111,
+        1,
+        0.167,
+        1,
+        1,
+        0.772,
+        1,
+        1.378,
+        0.018,
+        1.983,
+        0
+      ]
+    },
+    {
+      "Target": "Parameter",
+      "Id": "headfist",
+      "Segments": [
+        0,
+        0,
+        0,
+        1.983,
+        0
+      ]
+    },
+    {
+      "Target": "Parameter",
+      "Id": "leftbreasthit",
+      "Segments": [
+        0,
+        0,
+        0,
+        1.983,
+        0
+      ]
+    },
+    {
+      "Target": "Parameter",
+      "Id": "rightbreasthit",
+      "Segments": [
+        0,
+        0,
+        0,
+        1.983,
+        0
+      ]
+    },
+    {
+      "Target": "Parameter",
+      "Id": "bellyfist",
+      "Segments": [
+        0,
+        0,
+        0,
+        1.983,
+        0
+      ]
+    }
+  ]
+}

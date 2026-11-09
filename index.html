@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#fff1ef">
+  <title>햇살 속의 리온</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="app">
+    <button id="sleepLockButton" class="sleep-lock" type="button" aria-label="sleep를 100으로 고정" aria-pressed="false" title="sleep 100 고정" disabled>5521</button>
+    <div id="happyValue" class="happy-hud" role="status" aria-live="off" aria-label="꿀잠 수치">Zzz 0/100</div>
+    <button id="soundToggle" class="sound-toggle" type="button" aria-label="소리 끄기" title="소리 켜기/끄기">♫</button>
+    <section class="game-layout" aria-label="Live2D 게임">
+      <div class="game-board" id="gameBoard">
+        <img class="bed" src="./assets/bed.png" alt="침대" draggable="false">
+        <div id="liveCanvas" role="img" aria-label="Live2D 캐릭터"></div>
+        <div id="particles" class="particles" aria-hidden="true"></div>
+        <div class="mode-switcher" role="group" aria-label="터치 방식">
+          <button id="handButton" class="mode-btn active" type="button" aria-label="손" aria-pressed="true" title="손"><span aria-hidden="true">✋</span></button>
+          <button id="fistButton" class="mode-btn" type="button" aria-label="주먹" aria-pressed="false" title="주먹"><span aria-hidden="true">✊</span></button>
+        </div>
+        <div id="startup" class="startup">
+          <div class="startup-card">
+            <div id="loaderIcon" class="loader-icon" aria-hidden="true">☾</div>
+            <h2 id="loaderTitle">불러오는 중</h2>
+            <p id="loaderText" aria-live="polite">모델을 준비하고 있습니다.</p>
+            <div class="loading-line"><span></span></div>
+            <button id="retryButton" class="retry hidden" type="button">다시 시도</button>
+          </div>
+        </div>
+        <div id="titleScreen" class="title-screen" role="dialog" aria-labelledby="gameTitle" aria-modal="true">
+          <div class="title-card">
+            <h2 id="gameTitle">햇살 속의<br>리온</h2>
+            <button id="startButton" class="start-button" type="button" disabled>불러오는 중</button>
+          </div>
+        </div>
+        <div id="happyEnding" class="game-over happy-ending hidden" role="dialog" aria-modal="true" aria-labelledby="happyEndTitle">
+          <div class="over-card">
+            <h2 id="happyEndTitle">리온은 꿀잠을 잤습니다</h2>
+            <button id="endingRestartButton" class="restart" type="button">↻ 다시 시작</button>
+          </div>
+        </div>
+        <div id="gameOver" class="game-over hidden" role="dialog" aria-modal="true" aria-labelledby="overTitle">
+          <div class="over-card">
+            <h2 id="overTitle">GAME OVER</h2>
+            <button id="restartButton" class="restart" type="button">↻ 다시 시작</button>
+          </div>
+        </div>
+      </div>
+      <aside class="sleep-gauge" aria-label="수면 게이지">
+        <div class="zzz" aria-hidden="true">Z<span>z</span><sup>z</sup></div>
+        <div class="gauge-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" aria-label="sleep" id="sleepTrack">
+          <div class="gauge-glow"></div><div class="gauge-fill" id="sleepFill"></div><div class="gauge-lines"></div>
+        </div>
+        <span class="gauge-number" id="sleepValue">100/100</span>
+      </aside>
+    </section>
+    <div id="debugControls" class="debug-controls hidden" aria-label="모델 위치 조정">
+      <strong>모델 배치 (?debug=1)</strong>
+      <label>X <input id="debugX" type="range" min="0.1" max="0.9" step="0.01" value="0.5"></label>
+      <label>Y <input id="debugY" type="range" min="0.05" max="0.9" step="0.01" value="0.32"></label>
+      <label>크기 <input id="debugScale" type="range" min="0.2" max="2" step="0.01" value="0.86"></label>
+      <span id="debugReadout"></span>
+      <button id="debugCopy" type="button">위치값 복사</button>
+      <p id="debugHits"></p><p id="debugStatus"></p>
+    </div>
+  </main>
+  <script type="module" src="./game.js"></script>
+</body>
+</html>

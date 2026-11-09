@@ -1,0 +1,7 @@
+node_modules/
+assets/vendor/live2dcubismcore.min.js
+assets/vendor/*.partial
+.DS_Store
+npm-debug.log*
+assets/vendor/core-version.txt
+dist/
