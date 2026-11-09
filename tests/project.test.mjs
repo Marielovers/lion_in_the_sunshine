@@ -19,7 +19,7 @@ test('title screen is mandatory before gameplay and start button is present',()=
   const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
   const game=readFileSync(new URL('../game.js',import.meta.url),'utf8');
   assert.match(html,/id="titleScreen"/);
-  assert.match(html,/형아 뱃살/);
+  assert.match(html,/햇살 속의/);
   assert.match(html,/id="startButton"/);
   assert.match(game,/let model=null, ready=false, playing=false/);
   assert.match(game,/if\(!ready\|\|!playing\|\|state\.gameOver/);
