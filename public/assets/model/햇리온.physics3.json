@@ -1,10 +1,10 @@
 {
 	"Version": 3,
 	"Meta": {
-		"PhysicsSettingCount": 16,
-		"TotalInputCount": 40,
-		"TotalOutputCount": 23,
-		"VertexCount": 39,
+		"PhysicsSettingCount": 15,
+		"TotalInputCount": 38,
+		"TotalOutputCount": 22,
+		"VertexCount": 37,
 		"Fps": 60,
 		"EffectiveForces": {
 			"Gravity": {
@@ -76,10 +76,6 @@
 			{
 				"Id": "PhysicsSetting15",
 				"Name": "bodybounce"
-			},
-			{
-				"Id": "PhysicsSetting16",
-				"Name": "가슴빵X"
 			}
 		]
 	},
@@ -150,7 +146,7 @@
 				"Angle": {
 					"Minimum": -10,
 					"Default": 0,
-					"Maximum": 10
+					"Maximum": 30
 				}
 			}
 		},
@@ -1310,76 +1306,6 @@
 					"Destination": {
 						"Target": "Parameter",
 						"Id": "bodybounce"
-					},
-					"VertexIndex": 1,
-					"Scale": 30,
-					"Weight": 100,
-					"Type": "Angle",
-					"Reflect": false
-				}
-			],
-			"Vertices": [
-				{
-					"Position": {
-						"X": 0,
-						"Y": 0
-					},
-					"Mobility": 1,
-					"Delay": 1,
-					"Acceleration": 1,
-					"Radius": 0
-				},
-				{
-					"Position": {
-						"X": 0,
-						"Y": 15
-					},
-					"Mobility": 0.91,
-					"Delay": 1,
-					"Acceleration": 1,
-					"Radius": 15
-				}
-			],
-			"Normalization": {
-				"Position": {
-					"Minimum": -10,
-					"Default": 0,
-					"Maximum": 10
-				},
-				"Angle": {
-					"Minimum": -10,
-					"Default": 0,
-					"Maximum": 10
-				}
-			}
-		},
-		{
-			"Id": "PhysicsSetting16",
-			"Input": [
-				{
-					"Source": {
-						"Target": "Parameter",
-						"Id": "leftbreasthit"
-					},
-					"Weight": 50,
-					"Type": "X",
-					"Reflect": true
-				},
-				{
-					"Source": {
-						"Target": "Parameter",
-						"Id": "rightbreasthit"
-					},
-					"Weight": 50,
-					"Type": "X",
-					"Reflect": false
-				}
-			],
-			"Output": [
-				{
-					"Destination": {
-						"Target": "Parameter",
-						"Id": "touchbreastX"
 					},
 					"VertexIndex": 1,
 					"Scale": 30,
