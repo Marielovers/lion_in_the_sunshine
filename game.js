@@ -8,11 +8,12 @@ import {
 
 // Cubism Core 6.0.x (SDK 5.3 R5) is required for this model's moc3 v6.
 // `npm install` downloads from Live2D's official host to this local path.
-const LOCAL_CORE = '/assets/vendor/live2dcubismcore.min.js';
+const assetUrl = path => `${import.meta.env.BASE_URL}assets/${path}`;
+const LOCAL_CORE = assetUrl('vendor/live2dcubismcore.min.js');
 async function selectCoreUrl(){
   try {
     const [stamp, response]=await Promise.all([
-      fetch('/assets/vendor/core-version.txt',{cache:'no-store'}),
+      fetch(assetUrl('vendor/core-version.txt'),{cache:'no-store'}),
       fetch(LOCAL_CORE,{method:'HEAD',cache:'no-store'}),
     ]);
     const ct = response.headers.get('content-type') || '';
@@ -108,7 +109,7 @@ class VoiceChannel {
   }
   playNow(name){
     this.running=true;
-    this.audio.src='./assets/voice/'+name+'.wav';
+    this.audio.src=assetUrl('voice/'+name+'.wav');
     try{this.audio.currentTime=0;}catch{}
     const attempt=this.audio.play();
     attempt.catch(()=>this.advance());
@@ -128,7 +129,7 @@ const voice=new VoiceChannel();
 const pick = array=>array[Math.floor(Math.random()*array.length)];
 function playSfx(name){
   if(!soundEnabled||!name)return;
-  const node=new Audio('./assets/sfx/'+name+'.wav');node.volume=.66;
+  const node=new Audio(assetUrl('sfx/'+name+'.wav'));node.volume=.66;
   node.play().catch(()=>{});
   node.addEventListener('ended',()=>node.removeAttribute('src'),{once:true});
 }
@@ -531,7 +532,7 @@ async function start(){
     model=await createLive2D({
       container:modelHost,
       coreUrl,
-      src:'/assets/model/햇리온.model3.json',
+      src:assetUrl('model/햇리온.model3.json'),
       fit:{scale:screenPlacement.scale, offsetX:screenPlacement.x-.5, offsetY:screenPlacement.y-.5, units:'stage'},
       idleMotion:false,
       followPointer:false,
@@ -555,7 +556,7 @@ async function start(){
 window.__haetlion={
   getState:()=>({...state,playing,cheatEnabled,eyesForcedOpen,clothes:{...clothes}}),getModel:()=>model,
   getHitAreas:()=>model?.getModelInfo?.().hitAreas||[],hitAreaAt:areasAt,
-  getRegisteredAreas:async()=>{const data=await (await fetch('/assets/model/햇리온.model3.json')).json();return data.HitAreas;},
+  getRegisteredAreas:async()=>{const data=await (await fetch(assetUrl('model/햇리온.model3.json'))).json();return data.HitAreas;},
   setMode,changeStats,resetGame,getPlacement:()=>({...screenPlacement}),
 };
 start();
