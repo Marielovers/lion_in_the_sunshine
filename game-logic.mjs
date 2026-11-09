@@ -1,7 +1,7 @@
 /** Browser-independent rules. Spreadsheet: 규칙(5).xlsx. */
 export const MAX_SLEEP = 100;
 export const MAX_WAKE = 100;
-export const MAX_HAPPY = 100;
+export const MAX_HAPPY = 1000;
 export const HAPPY_PER_ACTION = 1;
 // Only hand touches on these Live2D body zones earn happy.
 // Change individual values here, or use HAPPY_PER_ACTION to scale all of them.
