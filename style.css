@@ -90,10 +90,13 @@ button{font:inherit;cursor:pointer;user-select:none;-webkit-user-select:none;-we
 @keyframes idleZzz{0%,100%{opacity:.58;transform:translateY(0) rotate(-19deg)}50%{opacity:1;transform:translateY(-5px) rotate(-14deg)}}
 @media(prefers-reduced-motion:reduce){.heart,.ripple{animation-duration:.45s}.loader-icon,.sleep-gauge.recovering .zzz{animation:none}}
 
-/* Compact fixed HUD: 5521 sleep lock and happiness progress. */
+/* Compact fixed HUD: 5512 eye toggle and happiness progress. */
 .sleep-lock{position:fixed;top:max(12px,env(safe-area-inset-top));left:max(12px,env(safe-area-inset-left));z-index:25;min-width:64px;min-height:46px;padding:4px 10px;border:1px solid #e8b9c4;border-radius:14px;background:#fffaf7ec;color:#a9667c;font-size:17px;font-weight:900;box-shadow:0 4px 15px #7e465929}
 .sleep-lock.active{background:#ecb0bf;color:#fff;border-color:#d990a4}
 .sleep-lock:disabled:not(.active){opacity:.5}
 .happy-hud{position:fixed;top:max(16px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);z-index:25;pointer-events:none;background:#fffaf7e8;border:1px solid #efd0d5;border-radius:30px;padding:7px 13px;color:#ca6786;font-size:16px;font-weight:900;font-variant-numeric:tabular-nums;box-shadow:0 3px 14px #7e465921;white-space:nowrap}
 .happy-ending .over-card h2{font-family:'Malgun Gothic','Apple SD Gothic Neo',system-ui,sans-serif;font-size:clamp(23px,5.2vw,35px);line-height:1.4;word-break:keep-all}
 @media(max-width:700px){.sleep-lock{top:max(8px,env(safe-area-inset-top));left:max(8px,env(safe-area-inset-left));min-width:58px;min-height:46px}.happy-hud{top:max(12px,env(safe-area-inset-top));font-size:14px;padding:8px 10px}}
+
+/* 5512 unlocks an eye-icon button with distinct open/closed states. */
+.sleep-lock svg{display:block;width:23px;height:23px;margin:auto;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}

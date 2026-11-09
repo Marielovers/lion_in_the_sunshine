@@ -2,18 +2,17 @@ import { createLive2D, OFFICIAL_CUBISM_CORE_URL } from 'live2d-web';
 import { axisDirection, garmentDirection } from './controls.config.mjs';
 import {
   INITIAL, MAX_SLEEP, MAX_WAKE, MAX_HAPPY, CLOTHING_DEFAULTS, FIXED_PARAMETERS, ANIMATED_PARAMETERS,
-  clamp, applyChange, applyActionChange, happyGainForInteraction, lockSleepAt100, zoneFor, dragEffect, punchEffect,
+  clamp, applyChange, applyActionChange, happyGainForInteraction, happyEndingMessage, lockSleepAt100, zoneFor, dragEffect, punchEffect,
   garmentProgress, parameterForGarment, gestureEffect, idleRecoveryDelta, dragValueForParameter,
 } from './game-logic.mjs';
 
 // Cubism Core 6.0.x (SDK 5.3 R5) is required for this model's moc3 v6.
 // `npm install` downloads from Live2D's official host to this local path.
-const assetUrl = path => `${import.meta.env.BASE_URL}assets/${path}`;
-const LOCAL_CORE = assetUrl('vendor/live2dcubismcore.min.js');
+const LOCAL_CORE = '/assets/vendor/live2dcubismcore.min.js';
 async function selectCoreUrl(){
   try {
     const [stamp, response]=await Promise.all([
-      fetch(assetUrl('vendor/core-version.txt'),{cache:'no-store'}),
+      fetch('/assets/vendor/core-version.txt',{cache:'no-store'}),
       fetch(LOCAL_CORE,{method:'HEAD',cache:'no-store'}),
     ]);
     const ct = response.headers.get('content-type') || '';
@@ -30,6 +29,9 @@ let state={...INITIAL};
 let clothes={...CLOTHING_DEFAULTS};
 let model=null, ready=false, playing=false;
 let currentPointer=null, mode='hand', soundEnabled=true, gameOverTimer=null;
+// 5512 is a two-stage cheat: activate once, then use the eye button.
+let cheatEnabled=false, eyesForcedOpen=false;
+let gameOverSequenceId=0;
 let lastVoiceAt=-Infinity;
 let lastInteractionAt=performance.now(), lastRecoveryTickAt=lastInteractionAt;
 const gaugeElement=document.querySelector('.sleep-gauge');
@@ -64,9 +66,40 @@ const labels={
 class VoiceChannel {
   constructor(){
     this.audio=new Audio();this.audio.preload='auto';this.audio.volume=.88;
-    this.running=false;this.pending=null;
+    this.running=false;this.pending=null;this.exclusiveCancel=null;
     this.audio.addEventListener('ended',()=>this.advance());
     this.audio.addEventListener('error',()=>this.advance());
+  }
+  /** Interrupt normal speech and wait for one full voice before opening the overlay. */
+  playExclusive(name){
+    this.stop();
+    if(!soundEnabled || !name)return Promise.resolve(false);
+    return new Promise(resolve=>{
+      const audio=this.audio;
+      let done=false;
+      let timerId;
+      const onEnd=()=>finish(true);
+      const onError=()=>finish(false);
+      const cancel=()=>finish(false);
+      const finish=success=>{
+        if(done)return;
+        done=true;
+        clearTimeout(timerId);
+        audio.removeEventListener('ended',onEnd);
+        audio.removeEventListener('error',onError);
+        if(this.exclusiveCancel===cancel)this.exclusiveCancel=null;
+        this.running=false;this.pending=null;
+        if(!success)audio.pause();
+        resolve(success);
+      };
+      this.exclusiveCancel=cancel;
+      audio.addEventListener('ended',onEnd);
+      audio.addEventListener('error',onError);
+      // A missing game-over WAV / autoplay failure should not freeze the game.
+      timerId=setTimeout(()=>finish(false),15000);
+      const attempt=this.playNow(name);
+      attempt?.catch?.(()=>finish(false));
+    });
   }
   play(name){
     if(!soundEnabled || !name)return;
@@ -75,9 +108,11 @@ class VoiceChannel {
   }
   playNow(name){
     this.running=true;
-    this.audio.src=assetUrl('voice/'+name+'.wav');
+    this.audio.src='./assets/voice/'+name+'.wav';
     try{this.audio.currentTime=0;}catch{}
-    this.audio.play().catch(()=>this.advance());
+    const attempt=this.audio.play();
+    attempt.catch(()=>this.advance());
+    return attempt;
   }
   advance(){
     this.running=false;
@@ -85,6 +120,7 @@ class VoiceChannel {
     if(next&&soundEnabled)this.playNow(next);
   }
   stop(){
+    this.exclusiveCancel?.();
     this.pending=null;this.running=false;this.audio.pause();this.audio.removeAttribute('src');this.audio.load();
   }
 }
@@ -92,7 +128,7 @@ const voice=new VoiceChannel();
 const pick = array=>array[Math.floor(Math.random()*array.length)];
 function playSfx(name){
   if(!soundEnabled||!name)return;
-  const node=new Audio(assetUrl('sfx/'+name+'.wav'));node.volume=.66;
+  const node=new Audio('./assets/sfx/'+name+'.wav');node.volume=.66;
   node.play().catch(()=>{});
   node.addEventListener('ended',()=>node.removeAttribute('src'),{once:true});
 }
@@ -136,8 +172,17 @@ $('soundToggle').addEventListener('click',()=>{
 $('restartButton').addEventListener('click',resetGame);
 $('endingRestartButton').addEventListener('click',resetGame);
 lockButton.addEventListener('click',()=>{
-  if(!playing || state.gameOver || state.ending || state.sleepLocked)return;
-  state=lockSleepAt100(state);markInteraction();updateHUD();
+  if(!playing || state.gameOver || state.ending)return;
+  if(!cheatEnabled){
+    // First click: activate the cheat (sleep=100, Zzz=0) WITHOUT opening the eyes.
+    cheatEnabled=true;
+    eyesForcedOpen=false;
+    state=lockSleepAt100(state);
+  }else{
+    // Subsequent clicks: open / close the eyes, without changing the cheat state.
+    eyesForcedOpen=!eyesForcedOpen;
+  }
+  markInteraction();updateHUD();
 });
 $('startButton').addEventListener('click',()=>{
   if(!ready||playing)return;
@@ -166,12 +211,23 @@ function heart(x,y,color='pink',amount=1){
     div.addEventListener('animationend',()=>div.remove(),{once:true});
   }
 }
+// Eye symbols communicate the current eye state after 5512 has unlocked cheats.
+const EYE_OPEN_ICON='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>';
+const EYE_CLOSED_ICON='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 3l18 18M10.6 5.1A11.4 11.4 0 0 1 12 5c6.5 0 10 7 10 7a15.6 15.6 0 0 1-3.5 4.2M6.4 6.4C3.6 8.1 2 12 2 12s3.5 7 10 7a10.7 10.7 0 0 0 3.8-.7"/></svg>';
 function updateHUD(){
   sleepFill.style.height=(state.sleep/MAX_SLEEP*100)+'%';
   happyValue.textContent=`Zzz ${Math.floor(state.happy||0)}/${MAX_HAPPY}`;
-  lockButton.classList.toggle('active',!!state.sleepLocked);
-  lockButton.setAttribute('aria-pressed',String(!!state.sleepLocked));
-  lockButton.disabled=!playing || state.gameOver || state.ending || !!state.sleepLocked;
+  if(cheatEnabled){
+    lockButton.innerHTML=eyesForcedOpen?EYE_OPEN_ICON:EYE_CLOSED_ICON;
+  }else{
+    lockButton.textContent='5512';
+  }
+  const actionLabel=!cheatEnabled?'치트모드 활성화':eyesForcedOpen?'눈 감기':'눈 뜨기';
+  lockButton.title=actionLabel;
+  lockButton.setAttribute('aria-label',actionLabel);
+  lockButton.classList.toggle('active',cheatEnabled);
+  lockButton.setAttribute('aria-pressed',String(cheatEnabled && eyesForcedOpen));
+  lockButton.disabled=!playing || state.gameOver || state.ending;
   sleepValue.textContent=String(Math.round(state.sleep))+'/'+MAX_SLEEP;
   sleepTrack.setAttribute('aria-valuenow',String(state.sleep));
   sleepFill.classList.toggle('kept-awake',state.sleep===0 && state.wake>=50);
@@ -180,26 +236,30 @@ function updateHUD(){
 }
 function stopIfHappyEnding(){
   if(!state.ending)return;
+  gameOverSequenceId++;
   clearTimeout(gameOverTimer);
   if(currentPointer)finishPointer();
+  $('happyEndTitle').textContent=happyEndingMessage(state.wake);
   $('gameOver').classList.add('hidden');
   $('happyEnding').classList.remove('hidden');
 }
-function stopIfGameOver(){
+async function stopIfGameOver(){
   if(!state.gameOver)return;
-
   if(currentPointer)finishPointer();
   clearTimeout(gameOverTimer);
-
-  // 기존 음성을 중단하고 게임오버 음성 재생
+  const sequence=++gameOverSequenceId;
+  $('gameOver').classList.add('hidden');
+  // 1) state.gameOver makes the model's eye parameter 1 immediately.
+  // Let the player actually see open eyes before playback begins.
   voice.stop();
-  voice.play('Voice_Lion_GameOver');
-
-  gameOverTimer=setTimeout(()=>{
-    if(state.gameOver){
-      $('gameOver').classList.remove('hidden');
-    }
-  },400);
+  await new Promise(resolve=>setTimeout(resolve,250));
+  if(!state.gameOver || sequence!==gameOverSequenceId)return;
+  // 2) Play the game-over voice alone, through its final frame.
+  // Place Voice_Lion_GameOver.wav in assets/voice or public/assets/voice.
+  await voice.playExclusive('Voice_Lion_GameOver');
+  if(!state.gameOver || sequence!==gameOverSequenceId)return;
+  // 3) Only after voice playback (or fallback on missing WAV), show overlay.
+  $('gameOver').classList.remove('hidden');
 }
 function changeStats(change,x,y,context={}){
   if(state.gameOver || state.ending)return;
@@ -233,7 +293,7 @@ function setClothes(name,value){
   setParameter(name,clothes[name]);updateHUD();
 }
 function resetGame(){
-  clearTimeout(gameOverTimer);if(currentPointer)finishPointer();voice.stop();
+  gameOverSequenceId++;clearTimeout(gameOverTimer);if(currentPointer)finishPointer();voice.stop();cheatEnabled=false;eyesForcedOpen=false;
   state={...INITIAL};clothes={...CLOTHING_DEFAULTS};lastVoiceAt=-Infinity;
   markInteraction();
   for(const key of Object.keys(parameters))delete parameters[key];
@@ -382,15 +442,12 @@ board.addEventListener('lostpointercapture',finishPointer);
 
 function reactiveValues(){
   const pct=state.wake/MAX_WAKE;
-  return {eye:state.sleep<=0?1:0, mouth:state.sleep<=0?1:0,
-    blink:pct, brow:pct, shy:pct, smile:state.sleep<=0?0:-pct};
+  // sleep=0 by itself must NOT open the eyes when wake >= 50.
+  // The 5512 cheat switches eye open/closed; actual GAME OVER overrides it.
+  const open=state.gameOver || (cheatEnabled && eyesForcedOpen);
+  return {eye:open?1:0, mouth:state.gameOver?1:0,
+    blink:pct, brow:pct, shy:pct, smile:state.gameOver?0:-pct};
 }
-const PHYSICS_PARAMETERS = new Set([
-  'touchheadX', 'touchheadY',
-  'touchbolX', 'touchbolY',
-  'touchbellyX', 'touchbellyY',
-  'touchbreastX'
-]);
 function registerModelDrivers(){
   if(!model)return;
   const meta=model.getModelInfo();
@@ -410,14 +467,10 @@ function registerModelDrivers(){
   for(const name of names){
     if(available.size && !available.has(name))continue;
     model.addParameterDriver(name,{
-  phase: PHYSICS_PARAMETERS.has(name)
-    ? 'before-physics'
-    : 'after-motion',
-
-  getValue:()=>Object.prototype.hasOwnProperty.call(reactiveValues(),name)
-    ? reactiveValues()[name]
-    : Number(parameters[name]||0),
-});
+      getValue:()=>Object.prototype.hasOwnProperty.call(reactiveValues(),name)
+        ? reactiveValues()[name]
+        : Number(parameters[name]||0),
+    });
   }
   console.info('Live2D 연결 파라미터 수',names.size,'Core6/Framework5');
 }
@@ -478,7 +531,7 @@ async function start(){
     model=await createLive2D({
       container:modelHost,
       coreUrl,
-      src:assetUrl('model/햇리온.model3.json'),
+      src:'/assets/model/햇리온.model3.json',
       fit:{scale:screenPlacement.scale, offsetX:screenPlacement.x-.5, offsetY:screenPlacement.y-.5, units:'stage'},
       idleMotion:false,
       followPointer:false,
@@ -500,9 +553,9 @@ async function start(){
   }
 }
 window.__haetlion={
-  getState:()=>({...state,playing,clothes:{...clothes}}),getModel:()=>model,
+  getState:()=>({...state,playing,cheatEnabled,eyesForcedOpen,clothes:{...clothes}}),getModel:()=>model,
   getHitAreas:()=>model?.getModelInfo?.().hitAreas||[],hitAreaAt:areasAt,
-  getRegisteredAreas:async()=>{const data=await (await fetch(assetUrl('model/햇리온.model3.json'))).json();return data.HitAreas;},
+  getRegisteredAreas:async()=>{const data=await (await fetch('/assets/model/햇리온.model3.json')).json();return data.HitAreas;},
   setMode,changeStats,resetGame,getPlacement:()=>({...screenPlacement}),
 };
 start();

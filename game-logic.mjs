@@ -30,6 +30,8 @@ export const INITIAL = Object.freeze({
 });
 export const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
 export const isGameOver=(sleep,wake)=>sleep<=0 && wake<50;
+/** When wake meets the no-game-over threshold, the happy ending has a question mark. */
+export const happyEndingMessage=(wake)=>Number(wake)>=50?'리온은 꿀잠을 잤습니다?':'리온은 꿀잠을 잤습니다';
 export const CLOTHING_DEFAULTS=Object.freeze({
   removehat:0,removecoat:0,removesock:0,removeriborn:0,
   removeshirtbotton:0,removeshirt:0,pantsbotton:0,pants:0,
@@ -132,9 +134,7 @@ export function applyChange(state,{sleep=0,wake=0,happy=0,hit=null}={}){
   if(state.gameOver||state.ending)return {...state,changedSleep:0,changedWake:0,changedHappy:0};
   const s=state.sleepLocked?MAX_SLEEP:clamp(state.sleep+sleep,0,MAX_SLEEP);
   const w=clamp(state.wake+wake,0,MAX_WAKE);
-const h=state.sleepLocked
-  ? 0
-  : clamp((state.happy||0)+happy,0,MAX_HAPPY);
+  const h=state.sleepLocked?0:clamp((state.happy||0)+happy,0,MAX_HAPPY);
   const ending=h>=MAX_HAPPY;
   const next={...state,sleep:s,wake:w,happy:h,
     changedSleep:s-state.sleep,changedWake:w-state.wake,changedHappy:h-(state.happy||0),
@@ -150,18 +150,11 @@ const h=state.sleepLocked
 export function applyActionChange(state,change={}, {mode,zone}={}){
   return applyChange(state,{...change,happy:happyGainForInteraction(mode,zone)});
 }
-/** 5521 button permanently fixes sleep at 100 until a restart. */
+/** First 5512 click activates cheat mode: both sleep and Zzz remain fixed. */
 export function lockSleepAt100(state){
   if(state.gameOver||state.ending)return state;
-
-  return {
-    ...state,
-    sleep:MAX_SLEEP,
-    sleepLocked:true,
-    happy:0,
-    changedSleep:MAX_SLEEP-state.sleep,
-    changedHappy:-(state.happy||0)
-  };
+  return {...state,sleep:MAX_SLEEP,sleepLocked:true,happy:0,
+    changedSleep:MAX_SLEEP-state.sleep,changedHappy:-(state.happy||0)};
 }
 export function garmentProgress(zone,dx,dy,boardSize,direction=1){
   const threshold=Math.max(1,boardSize*.16);
