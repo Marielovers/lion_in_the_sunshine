@@ -187,9 +187,19 @@ function stopIfHappyEnding(){
 }
 function stopIfGameOver(){
   if(!state.gameOver)return;
+
   if(currentPointer)finishPointer();
   clearTimeout(gameOverTimer);
-  gameOverTimer=setTimeout(()=>{if(state.gameOver)$('gameOver').classList.remove('hidden');},400);
+
+  // 기존 음성을 중단하고 게임오버 음성 재생
+  voice.stop();
+  voice.play('Voice_Lion_GameOver');
+
+  gameOverTimer=setTimeout(()=>{
+    if(state.gameOver){
+      $('gameOver').classList.remove('hidden');
+    }
+  },400);
 }
 function changeStats(change,x,y,context={}){
   if(state.gameOver || state.ending)return;
