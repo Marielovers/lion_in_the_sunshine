@@ -11,7 +11,7 @@ const allowed=['head','shoulder','handLeft','handRight','footLeft','footRight','
 const disallowed=['cheek','face','angryTouch','frontLeft','frontRight','hat','coatLeft','coatRight',
   'ribbon','socks','shirtLeft','shirtRight','shirtButton','pantsButton','pants','armLeft','armRight','legLeft','legRight'];
 
-test('happy starts at zero, maximum is 100, default per-touch multiplier is one',()=>{
+test('happy starts at zero and has a valid configured maximum, default per-touch multiplier is one',()=>{
   assert.equal(INITIAL.happy,0); assert.equal(MAX_HAPPY,1000);
   assert.equal(HAPPY_PER_ACTION,1);
   assert.deepEqual(Object.keys(HAPPY_BY_TOUCH_ZONE).sort(),allowed.slice().sort());
@@ -54,14 +54,14 @@ test('passive sleep recovery does not increase happy',()=>{
   assert.equal(next.happy,13);
 });
 
-test('100 happy triggers ending and takes priority over game over',()=>{
-  const next=applyActionChange({...INITIAL,sleep:1,happy:99},{sleep:-100,wake:0},{mode:'hand',zone:'head'});
-  assert.equal(next.happy,100); assert.equal(next.ending,true); assert.equal(next.gameOver,false);
+test('MAX_HAPPY triggers ending and takes priority over game over',()=>{
+  const next=applyActionChange({...INITIAL,sleep:1,happy:MAX_HAPPY-1},{sleep:-100,wake:0},{mode:'hand',zone:'head'});
+  assert.equal(next.happy,MAX_HAPPY); assert.equal(next.ending,true); assert.equal(next.gameOver,false);
 });
 
-test('happy clamps at 100 and winning blocks further actions',()=>{
-  const next=applyChange({...INITIAL,happy:99},{happy:200});
-  assert.equal(next.happy,100);assert.equal(next.ending,true);
+test('happy clamps at MAX_HAPPY and winning blocks further actions',()=>{
+  const next=applyChange({...INITIAL,happy:MAX_HAPPY-1},{happy:MAX_HAPPY+200});
+  assert.equal(next.happy,MAX_HAPPY);assert.equal(next.ending,true);
   assert.deepEqual(applyActionChange(next,{sleep:-1},{mode:'hand',zone:'head'}),
     {...next,changedSleep:0,changedWake:0,changedHappy:0});
 });
