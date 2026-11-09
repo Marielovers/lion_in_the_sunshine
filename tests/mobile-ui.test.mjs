@@ -6,7 +6,7 @@ import {garmentProgress} from '../game-logic.mjs';
 const read = name=>readFileSync(new URL('../'+name, import.meta.url));
 
 test('new bed is exactly the portrait source image',()=>{
-  const image=read('assets/bed.png');
+  const image=read('public/assets/bed.png');
   assert.equal(image.toString('ascii',1,4),'PNG');
   assert.equal(image.readUInt32BE(16),797);
   assert.equal(image.readUInt32BE(20),1254);

@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-const json = JSON.parse(readFileSync(new URL('../assets/model/햇리온.model3.json',import.meta.url),'utf8'));
-const moc = readFileSync(new URL('../assets/model/햇리온.moc3',import.meta.url));
+const json = JSON.parse(readFileSync(new URL('../public/assets/model/햇리온.model3.json',import.meta.url),'utf8'));
+const moc = readFileSync(new URL('../public/assets/model/햇리온.moc3',import.meta.url));
 const config=readFileSync(new URL('../vite.config.mjs',import.meta.url),'utf8');
 test('all moc hit areas are registered in model3.json',()=>{
  const names = [...new Set([...moc.toString('latin1').matchAll(/HitArea_[A-Za-z0-9_]+/g)].map(x=>x[0]))];
@@ -40,7 +40,7 @@ test('new moc has angry as actual parameter, old wet parameter is absent',()=>{
  const binary = moc.toString('latin1');
  assert.ok(binary.includes('angry\x00'), 'angry ID not in moc');
  assert.ok(!binary.includes('wet\x00'), 'wet ID should be removed');
- const cdi=JSON.parse(readFileSync(new URL('../assets/model/햇리온.cdi3.json',import.meta.url),'utf8'));
+ const cdi=JSON.parse(readFileSync(new URL('../public/assets/model/햇리온.cdi3.json',import.meta.url),'utf8'));
  assert.ok(cdi.Parameters.some(p=>p.Id==='angry'));
  assert.ok(!cdi.Parameters.some(p=>p.Id==='wet'));
  assert.ok(json.HitAreas.some(h=>h.Id==='HitArea_touchangry'));

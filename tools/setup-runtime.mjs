@@ -16,7 +16,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const vendor = path.join(root, 'assets', 'vendor');
+const vendor = path.join(root, 'public', 'assets', 'vendor');
 const CORE_URL = 'https://cubism.live2d.com/sdk-web/core/06/live2dcubismcore.min.js';
 const coreTarget = path.join(vendor, 'live2dcubismcore.min.js');
 const coreStamp = path.join(vendor, 'core-version.txt');
